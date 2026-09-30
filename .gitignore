@@ -1,0 +1,39 @@
+# Model weights and checkpoints
+weights/
+checkpoints/
+*.onnx
+*.pt
+*.pth
+*.weights
+*.ckpt
+*.safetensors
+*.engine
+
+# Images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tif
+*.tiff
+*.webp
+
+# Videos
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.m4v
+
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated face processing outputs
+frames/out_det/
+frames/out_align/
+frames/out_emb/

@@ -1,0 +1,14 @@
+[project]
+name = "face-onnx"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.2.6",
+    "onnxruntime>=1.23.2",
+    "opencv-python-headless>=5.0.0.93",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
