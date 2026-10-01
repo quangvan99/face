@@ -15,6 +15,16 @@ uv sync --extra rknn
 uv sync --extra openvino
 ```
 
+## Build face database
+
+Put registration photos in `db/<person_name>/` (one face per photo), then run:
+
+```bash
+./extract_db.sh
+```
+
+This creates `db/features.json`.
+
 ## Convert ONNX to RKNN
 
 Place `.onnx` models into `weights/onnx/`, then run:
