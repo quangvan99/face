@@ -7,7 +7,8 @@ import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from face_onnx import FaceAlign, FaceAnti, FaceDatabase, FaceDetector, FaceEmbedder, l2_distance
+from face_onnx import FaceAlign, FaceAnti, FaceDetector, FaceEmbedder
+from utils import FaceDatabase, l2_distance
 
 
 def test_face_det():

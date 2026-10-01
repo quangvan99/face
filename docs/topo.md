@@ -1,5 +1,7 @@
 # Face processing topology
 
+`FaceDatabase` và `l2_distance` được định nghĩa trong `utils.py`.
+
 ## 1. Tạo feature database từ ảnh đăng ký
 
 Một người có thể có nhiều ảnh đăng ký. Nên gom ảnh theo thư mục tên người; mỗi ảnh nên có đúng một khuôn mặt.
