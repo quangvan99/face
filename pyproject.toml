@@ -8,7 +8,14 @@ dependencies = [
     "opencv-python-headless>=5.0.0.93",
 ]
 
+[project.optional-dependencies]
+rknn = ["rknn-toolkit-lite2==2.3.2; platform_machine == 'aarch64'"]
+
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
 ]
+
+[tool.pytest.ini_options]
+addopts = "-m 'not slow'"
+markers = ["slow: processes every input frame"]

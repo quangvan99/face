@@ -4,6 +4,7 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from face_onnx import FaceAlign, FaceAnti, FaceDatabase, FaceDetector, FaceEmbedder, l2_distance
@@ -19,7 +20,7 @@ def test_face_det():
         raise FileNotFoundError(image_path)
 
     visualized = image.copy()
-    for box, kps in FaceDetector(root / "weights" / "scrfd_10g_bnkps.onnx").detect(image):
+    for box, kps in FaceDetector(root / "weights" / "onnx" / "scrfd_10g_bnkps.onnx").detect(image):
         x1, y1, x2, y2 = np.round(box).astype(int)
         cv2.rectangle(visualized, (x1, y1), (x2, y2), (0, 255, 0), 2)
         for x, y in np.round(kps).astype(int):
@@ -38,7 +39,7 @@ def test_face_align():
     if image is None:
         raise FileNotFoundError(image_path)
 
-    faces = FaceDetector(root / "weights" / "scrfd_10g_bnkps.onnx").detect(image)
+    faces = FaceDetector(root / "weights" / "onnx" / "scrfd_10g_bnkps.onnx").detect(image)
     output_dir.mkdir(parents=True, exist_ok=True)
     aligner = FaceAlign()
     for i, (box, kps) in enumerate(faces, 1):
@@ -54,7 +55,7 @@ def test_face_embed():
     if face_crop is None:
         raise FileNotFoundError(crop_path)
 
-    embedding = FaceEmbedder(root / "weights" / "arcface_r100.onnx").embed(face_crop)
+    embedding = FaceEmbedder(root / "weights" / "onnx" / "arcface_r100.onnx").embed(face_crop)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(embedding.tolist()))
 
@@ -62,9 +63,9 @@ def test_face_embed():
 def test_face_compare():
     root = Path(__file__).resolve().parents[1]
     fixtures = Path(__file__).parent / "fixtures"
-    detector = FaceDetector(root / "weights" / "scrfd_10g_bnkps.onnx")
+    detector = FaceDetector(root / "weights" / "onnx" / "scrfd_10g_bnkps.onnx")
     aligner = FaceAlign()
-    embedder = FaceEmbedder(root / "weights" / "arcface_r100.onnx")
+    embedder = FaceEmbedder(root / "weights" / "onnx" / "arcface_r100.onnx")
 
     def get_embedding(image_path):
         image = cv2.imread(str(image_path))
@@ -93,9 +94,9 @@ def test_face_anti():
     if image is None:
         raise FileNotFoundError(image_path)
 
-    detector = FaceDetector(root / "weights" / "scrfd_10g_bnkps.onnx")
-    anti = FaceAnti(root / "weights" / "MiniFASNetV2.onnx",
-                    root / "weights" / "MiniFASNetV1SE.onnx")
+    detector = FaceDetector(root / "weights" / "onnx" / "scrfd_10g_bnkps.onnx")
+    anti = FaceAnti(root / "weights" / "onnx" / "MiniFASNetV2.onnx",
+                    root / "weights" / "onnx" / "MiniFASNetV1SE.onnx")
     visualized = image.copy()
     for box, _ in detector.detect(image):
         crop_v2 = FaceAnti.crop(image, box, FaceAnti.V2_SCALE)
@@ -114,13 +115,12 @@ def test_face_anti():
 
 
 def _load_face_pipeline(root):
-    detector = FaceDetector(root / "weights" / "scrfd_10g_bnkps.onnx")
+    detector = FaceDetector(root / "weights" / "onnx" / "scrfd_10g_bnkps.onnx")
     aligner = FaceAlign()
-    embedder = FaceEmbedder(root / "weights" / "arcface_r100.onnx")
-    anti = FaceAnti(root / "weights" / "MiniFASNetV2.onnx",
-                    root / "weights" / "MiniFASNetV1SE.onnx")
+    embedder = FaceEmbedder(root / "weights" / "onnx" / "arcface_r100.onnx")
+    anti = FaceAnti(root / "weights" / "onnx" / "MiniFASNetV2.onnx",
+                    root / "weights" / "onnx" / "MiniFASNetV1SE.onnx")
     database = FaceDatabase(root / "tests" / "db_features.json")
-    database.build(root / "tests" / "db", detector, aligner, embedder)
     return detector, aligner, embedder, anti, database
 
 
@@ -164,6 +164,7 @@ def test_face_pipeline():
     _process_pipeline_frame(image_path, output_path, _load_face_pipeline(root))
 
 
+@pytest.mark.slow
 def test_face_pipeline_all():
     root = Path(__file__).resolve().parents[1]
     fixtures = Path(__file__).parent / "fixtures" / "frames"
@@ -175,7 +176,3 @@ def test_face_pipeline_all():
     for image_path in image_paths:
         output_path = fixtures / "out_pipeline" / image_path.name
         _process_pipeline_frame(image_path, output_path, pipeline)
-
-
-if __name__ == "__main__":
-    test_face_pipeline_all()

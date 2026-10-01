@@ -56,9 +56,35 @@ ArcFace R100 là model lớn nhất trong bộ hiện tại. Nên đo bản `fp`
 - RK3588 hỗ trợ chọn NPU core mask. Bắt đầu với cấu hình mặc định rồi benchmark các cấu hình core trên board; không giả định dùng nhiều core sẽ luôn nhanh hơn, nhất là khi các bước detect → anti-spoof → embedding phụ thuộc kết quả bước trước. [RK3588 core mask API](https://github.com/airockchip/rknpu2/blob/master/runtime/RK3588/Linux/librknn_api/include/rknn_api.h)
 - Trước khi triển khai, xác nhận phiên bản NPU driver, `librknnrt` và RKNN Lite2 tương thích với nhau theo SDK/firmware của Firefly.
 
+## Cài đặt Python bằng uv
+
+Hai package có nhiệm vụ khác nhau:
+
+- **RKNN-Toolkit2** dùng để chuyển ONNX sang `.rknn` và đánh giá model.
+- **RKNN Lite2** dùng trong ứng dụng Python trên board để nạp và inference model `.rknn`; Lite2 không chuyển đổi model.
+
+Môi trường hiện tại là Ubuntu 22.04 ARM64 với Python 3.10. PyPI có wheel ARM64/Python 3.10 cho cả hai package ở phiên bản 2.3.2. [RKNN-Toolkit2 trên PyPI](https://pypi.org/project/rknn-toolkit2/) · [RKNN Lite2 trên PyPI](https://pypi.org/project/rknn-toolkit-lite2/)
+
+Toolkit2 yêu cầu `numpy<=1.26.4`, trong khi `pyproject.toml` hiện yêu cầu `numpy>=2.2.6`. Vì vậy cài Toolkit2 vào môi trường project hiện tại sẽ xung đột dependency. Dùng một uv environment riêng cho công cụ chuyển đổi:
+
+```bash
+uv venv --python 3.10 .venv-rknn-convert
+uv pip install --python .venv-rknn-convert/bin/python "rknn-toolkit2==2.3.2"
+.venv-rknn-convert/bin/python -c "from rknn.api import RKNN; print('Toolkit2 OK')"
+```
+
+Trong môi trường chạy ứng dụng trên board, cài Lite2 bằng uv:
+
+```bash
+uv add "rknn-toolkit-lite2==2.3.2"
+```
+
+Kiểm tra import với `from rknnlite.api import RKNNLite`. Package Python không thay thế NPU driver hay `librknnrt.so`; các thành phần này vẫn cần tương thích với nhau.
+
 ## Tài liệu tham khảo
 
 - [RKNN-Toolkit2: nền tảng hỗ trợ, API triển khai và phiên bản](https://github.com/airockchip/rknn-toolkit2)
 - [RKNN Model Zoo: ví dụ RetinaFace và chuyển ONNX sang RKNN cho RK3588](https://github.com/airockchip/rknn_model_zoo/blob/main/examples/RetinaFace/README.md)
 - [ONNX Runtime RKNPU EP: nền tảng hỗ trợ](https://onnxruntime.ai/docs/execution-providers/community-maintained/RKNPU-ExecutionProvider.html)
 - [RKNN Model Zoo FAQ: hiệu năng Python/C API, benchmark và lượng tử hóa](https://github.com/airockchip/rknn_model_zoo/blob/main/FAQ_CN.md)
+- [uv: cài package vào environment hiện tại](https://docs.astral.sh/uv/pip/packages/)

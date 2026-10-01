@@ -30,10 +30,13 @@ checkpoints/
 # Python cache and virtual environments
 __pycache__/
 *.py[cod]
+.pytest_cache/
 .venv/
 venv/
 
-# Generated face processing outputs
-frames/out_det/
-frames/out_align/
-frames/out_emb/
+# Generated test outputs
+/tests/fixtures/frames/out_det/
+/tests/fixtures/frames/out_align/
+/tests/fixtures/frames/out_emb/
+/tests/fixtures/frames/out_anti/
+/tests/fixtures/frames/out_pipeline/
