@@ -1,0 +1,106 @@
+{
+  "source": "tests/fixtures/cam_real.jpg",
+  "source_face_bbox_height_px": 157.26,
+  "purpose": "Synthetic supplementary inputs for Bài toán 1.1, not real capture samples.",
+  "variants": {
+    "cam_real_roll_-30.jpg": {
+      "transformation": "in_plane_roll",
+      "degrees": -30,
+      "note": "Rotates the whole frame; it does not simulate yaw or pitch.",
+      "detected_face_bbox_px": [
+        130.9,
+        153.4
+      ]
+    },
+    "cam_real_roll_-15.jpg": {
+      "transformation": "in_plane_roll",
+      "degrees": -15,
+      "note": "Rotates the whole frame; it does not simulate yaw or pitch.",
+      "detected_face_bbox_px": [
+        122.4,
+        154.8
+      ]
+    },
+    "cam_real_roll_+15.jpg": {
+      "transformation": "in_plane_roll",
+      "degrees": 15,
+      "note": "Rotates the whole frame; it does not simulate yaw or pitch.",
+      "detected_face_bbox_px": [
+        122.0,
+        144.2
+      ]
+    },
+    "cam_real_roll_+30.jpg": {
+      "transformation": "in_plane_roll",
+      "degrees": 30,
+      "note": "Rotates the whole frame; it does not simulate yaw or pitch.",
+      "detected_face_bbox_px": [
+        129.1,
+        142.3
+      ]
+    },
+    "cam_real_bright.jpg": {
+      "transformation": "brightness",
+      "beta": 30,
+      "note": "Global brightness increase.",
+      "detected_face_bbox_px": [
+        123.0,
+        156.8
+      ]
+    },
+    "cam_real_dim.jpg": {
+      "transformation": "brightness_contrast",
+      "alpha": 0.75,
+      "beta": -5,
+      "note": "Global dimming and contrast reduction.",
+      "detected_face_bbox_px": [
+        123.1,
+        158.7
+      ]
+    },
+    "cam_real_face_180px.jpg": {
+      "transformation": "scene_scale_down",
+      "target_face_height_px": 180,
+      "scale": 1.0,
+      "note": "Shrinks the whole scene on a neutral canvas to approximate distance.",
+      "detected_face_bbox_px": [
+        122.9,
+        157.2
+      ]
+    },
+    "cam_real_face_100px.jpg": {
+      "transformation": "scene_scale_down",
+      "target_face_height_px": 100,
+      "scale": 0.635875502841918,
+      "note": "Shrinks the whole scene on a neutral canvas to approximate distance.",
+      "detected_face_bbox_px": [
+        77.1,
+        91.6
+      ]
+    },
+    "cam_real_yaw_left.png": {
+      "transformation": "synthetic_head_pose",
+      "description": "AI-edited head turn toward the image's left",
+      "note": "AI-generated; facial identity may differ slightly from the source.",
+      "detected_face_bbox_px": [281.3, 369.8]
+    },
+    "cam_real_yaw_right.png": {
+      "transformation": "synthetic_head_pose",
+      "description": "AI-edited head turn toward the image's right",
+      "note": "AI-generated; facial identity may differ slightly from the source.",
+      "detected_face_bbox_px": [276.2, 367.3]
+    },
+    "cam_real_pitch_up.png": {
+      "transformation": "synthetic_head_pose",
+      "description": "AI-edited chin raised",
+      "note": "AI-generated; facial identity may differ slightly from the source.",
+      "detected_face_bbox_px": [297.4, 339.7]
+    },
+    "cam_real_pitch_down.png": {
+      "transformation": "synthetic_head_pose",
+      "description": "AI-edited chin lowered",
+      "note": "AI-generated; facial identity may differ slightly from the source.",
+      "detected_face_bbox_px": [300.8, 373.9]
+    }
+  }
+}

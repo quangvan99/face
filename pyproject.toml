@@ -10,6 +10,7 @@ dependencies = [
 
 [project.optional-dependencies]
 rknn = ["rknn-toolkit-lite2==2.3.2; platform_machine == 'aarch64'"]
+openvino = ["openvino>=2025.0.0"]
 
 [dependency-groups]
 dev = [

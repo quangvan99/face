@@ -121,7 +121,7 @@ def _load_face_pipeline(root):
     embedder = FaceEmbedder(root / "weights" / "onnx" / "arcface_r100.onnx")
     anti = FaceAnti(root / "weights" / "onnx" / "MiniFASNetV2.onnx",
                     root / "weights" / "onnx" / "MiniFASNetV1SE.onnx")
-    database = FaceDatabase(root / "tests" / "db_features.json")
+    database = FaceDatabase(root / "db" / "features.json")
     return detector, aligner, embedder, anti, database
 
 

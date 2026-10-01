@@ -23,8 +23,8 @@ SAMPLES = (
     ROOT / "tests/fixtures/frames/inputs/frame_000001.jpg",
     ROOT / "tests/fixtures/frames/inputs/frame_000100.jpg",
     ROOT / "tests/fixtures/frames/inputs/frame_000300.jpg",
-    ROOT / "tests/db/an/an.jpg",
-    ROOT / "tests/db/tu/tu.jpg",
+    ROOT / "db/an/an.jpg",
+    ROOT / "db/tu/tu.jpg",
     *(ROOT / "tests/fixtures" / f"nv{i}.jpg" for i in range(1, 5)),
 )
 
